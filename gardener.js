@@ -2,6 +2,7 @@ var express = require('express');
 var request = require('request');
 var fs = require('fs');
 var app = express();
+var schedule = require('node-schedule');
 
 var server = app.listen(3030, function () {
     console.log("Express server has started on port 3030");
@@ -50,4 +51,11 @@ var loadConfig = function () {
     }
 }
 
-SendMessage(loadConfig());
+var rule = new schedule.RecurrenceRule();
+rule.dayOfWeek = [0, new schedule.Range(1, 5)];
+rule.hour = 10;
+rule.minute = 0;
+
+var job = schedule.scheduleJob(rule,  function() { 
+    SendMessage(loadConfig())
+});
