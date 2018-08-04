@@ -2,7 +2,7 @@ var syncRequest = require('sync-request');
 var fs = require('fs');
 var configure = require('./config.js');
 
-var Download = function (filePath) {
+var download = function (filePath) {
     var configData = configure.loadConfig();
     const getConfig = {
         host: configData["EventDay-host"],
@@ -16,7 +16,7 @@ var Download = function (filePath) {
 
     var today = new Date();
     var year = today.getFullYear();
-    var queryUrl = configData["EventDay-URL"] + "?type=h&year=" + year;
+    var queryUrl = configData["EventDay-Url"] + "?type=h&year=" + year;
     var url = queryUrl;
 
     var res = syncRequest('GET', url, getConfig);
@@ -50,7 +50,7 @@ var checkEventDay = function () {
         return isEventDay;
     } else {
         console.log(fileName + "file not exist");
-        Download(filePath);
+        download(filePath);
         return checkEventDay();
     }
 }

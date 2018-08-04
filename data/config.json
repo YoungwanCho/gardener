@@ -1,6 +1,8 @@
 {
-    "Webhook_Url": "",
+    "Webhook-Url":"",
     "EventDay-host": "",
     "EventDay-TDCProjecyKey": "",
-    "EventDay-URL": ""
+    "EventDay-Url": "",
+    "LunchMenu-Url": "",
+    "LunchNotifyTime": "11:10"
 }
