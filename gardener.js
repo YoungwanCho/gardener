@@ -16,19 +16,25 @@ var server = app.listen(3030, function () {
 })
 
 var menuOfTheDay = function () {
-    var isEventDay = eventday.checkEventDay();
-    if (isEventDay) {
-        console.log("오늘은 공휴일입니다.");
-    } else {
-        var configData = config.loadConfig();
-        var formData = {
-            body: new Date().toDateString(),
-            connectColor: '#FAC11B', //Hex code color of attachment bar
-            connectInfo: [{
-                title: '오늘의 메뉴', //1st attachment area title
-                description: lunchmenu.menuOfTheDay(configData["LunchMenu-Url"]) //1st attachment description
-            }]
+    var date = new Date();
+    var dayLabel = date.getDay();
+    var isWeekday = (1 <= dayLabel && dayLabel <= 5); //월요일 금요일
+
+    if (isWeekday) {
+        var isEventDay = eventday.checkEventDay();
+        if (isEventDay) {
+            console.log(date.toDateString() + ' 오늘은 공휴일 입니다.');
+        } else {
+            var configData = config.loadConfig();
+            var formData = {
+                body: date.toDateString(),
+                connectColor: '#FAC11B', //Hex code color of attachment bar
+                connectInfo: [{
+                    title: '오늘의 메뉴', //1st attachment area title
+                    description: lunchmenu.menuOfTheDay(configData["LunchMenu-Url"]) //1st attachment description
+                }]
+            }
+            jandi.sendMessage(configData["Webhook-Url"], formData);
         }
-        jandi.sendMessage(configData["Webhook-Url"], formData);
     }
 }
