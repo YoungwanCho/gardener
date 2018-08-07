@@ -5,7 +5,7 @@ var configure = require('./config.js');
 var download = function (filePath) {
     var configData = configure.loadConfig();
     const getConfig = {
-        host: configData["EventDay-host"],
+        host: configData["EventDay-Host"],
         Referer: "",
         headers: {
             "TDCProjectKey": configData["EventDay-TDCProjecyKey"],

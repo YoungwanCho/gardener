@@ -34,7 +34,7 @@ var menuOfTheDay = function () {
                     description: lunchmenu.menuOfTheDay(configData["LunchMenu-Url"]) //1st attachment description
                 }]
             }
-            jandi.sendMessage(configData["Webhook-Url"], formData);
+            jandi.sendMessage(configData["IW-Group"], formData);
         }
     }
 }
