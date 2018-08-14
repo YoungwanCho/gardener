@@ -5,19 +5,28 @@ exports.menuOfTheDay = function (url) {
     var res = syncRequest('GET', url);
     var html = res.body;
     var $ = cheerio.load(html);
-    var menuList = [];
 
-    menuList.push("일요일 운영하지 않습니다.");
-    $('.tbl_table.menu > tbody > tr > td > span').each(function () {
-        var tableInfo = $(this);
-        var tableInfoText = tableInfo.text();
-        if (tableInfoText) {
-            menuList.push(tableInfoText);
-        }
+    var weeklyMenus = new Array();
+    var dailyMenus = new Array();
+
+    $('.tbl_table.menu > tbody > tr > td').each(function () {
+        $(this).children('span').filter(function (n) {
+            if (!$(this).hasClass('kcal')) {
+                var menuInfo = $(this);
+                menuInfoText = menuInfo.text();
+                if (!menuInfoText) {
+                    menuInfoText = "메뉴 없음";
+                }
+                dailyMenus.push(menuInfoText);
+                if (dailyMenus.length >= 3) {
+                    weeklyMenus.push(dailyMenus.slice(0));
+                    dailyMenus = [];
+                }
+                return true;
+            }
+        })
     })
-    menuList.push("토요일은 운영하지 않습니다.");
-
     var date = new Date();
-    var dayLabel = date.getDay();
-    return menuList[dayLabel];
+    var dayLabel = (date.getDay() + 6) % 7; // 월요일이 0이 되도록 계산
+    return weeklyMenus[dayLabel][1]; // 중식은 무조건 1번이다.
 }

@@ -7,7 +7,7 @@ var lunchmenu = require('./lunchmenu.js');
 
 var app = express();
 
-var server = app.listen(3030, function () {
+app.listen(3030, function () {
     console.log("Express server has started on port 3030");
     var configData = config.loadConfig();
     var notifyTime = configData["LunchNotifyTime"];
@@ -23,7 +23,11 @@ var menuOfTheDay = function () {
     if (isWeekday) {
         var isEventDay = eventday.checkEventDay();
         if (isEventDay) {
-            console.log(date.toDateString() + ' 오늘은 공휴일 입니다.');
+            var configData = config.loadConfig();
+            var formData = {
+                body: "오늘은 공휴일이라 그룹채팅에 메세지를 안보냈어요"
+            }
+            jandi.sendMessage(configData["IW-Personal"], formData);
         } else {
             var configData = config.loadConfig();
             var formData = {
