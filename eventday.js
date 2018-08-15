@@ -28,13 +28,20 @@ var download = function (filePath) {
 
 var checkEventDay = function () {
     var today = new Date();
-    var year = today.getFullYear();
-
-    var fileName = "eventDay-" + year + ".json";
+    var yyyy = today.getFullYear();
+    var fileName = "eventDay-" + yyyy + ".json";
     var filePath = "./data/" + fileName;
     var isExists = fs.existsSync(filePath);
 
     if (isExists) {
+        var mm = today.getMonth() + 1;
+        var dd = today.getDate();
+        if (dd < 10) {
+            dd = '0' + dd;
+        }
+        if (mm < 10) {
+            mm = '0' + mm;
+        }
         var eventday = fs.readFileSync(filePath, 'utf8');
         var eventday = JSON.parse(eventday);
         var days = eventday["results"];
@@ -43,7 +50,7 @@ var checkEventDay = function () {
         days.forEach(element => {
             var month = element["month"];
             var day = element["day"];
-            if (today.getMonth() == month && today.getDay() == day) {
+            if (mm == month && dd == day) {
                 isEventDay = true;
             }
         });

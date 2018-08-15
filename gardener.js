@@ -25,7 +25,7 @@ var menuOfTheDay = function () {
         if (isEventDay) {
             var configData = config.loadConfig();
             var formData = {
-                body: "오늘은 공휴일이라 그룹채팅에 메세지를 안보냈어요"
+                body: "오늘은 공휴일이라 그룹채팅에 오늘의 메뉴를 안보냈어요"
             }
             jandi.sendMessage(configData["IW-Personal"], formData);
         } else {
