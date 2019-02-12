@@ -48,3 +48,5 @@ var menuOfTheDay = function () {
     }
   }
 }
+
+exports.SendMenuOfTheDay = menuOfTheDay;
