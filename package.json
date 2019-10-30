@@ -4,7 +4,7 @@
   "dependencies": {
     "body-parser": "^1.18.3",
     "cheerio": "^1.0.0-rc.2",
-    "ejs": "~2.4.1",
+    "ejs": "~2.7.1",
     "express": "~4.13.1",
     "node-schedule": "^1.3.0",
     "request": "^2.87.0",
