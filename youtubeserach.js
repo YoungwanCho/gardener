@@ -1,10 +1,10 @@
 var Youtube = require('youtube-node');
 var youtube = new Youtube();
 
-exports.getVideoList = function (callback) {
-  youtube.setKey('AIzaSyD6TqfXnXNZx_BCdH9iaWWb9TuERbd3FbQ');
+exports.getVideoList = function (accessKey, channelId, callback) {
+  youtube.setKey(accessKey);
   youtube.addParam('part', 'contentDetails');
-  youtube.addParam('channelId', 'UCIHVckqVvKSxmtvP7qDBhaQ');
+  youtube.addParam('channelId', channelId);
   youtube.addParam('order', 'date');
 
   youtube.search('', 50, function (err, result) {

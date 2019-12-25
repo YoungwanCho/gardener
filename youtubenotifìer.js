@@ -6,7 +6,9 @@ const jsonFilePath = './storage/youtube-notificatoin-stamp.json';
 const configData = config.loadConfig();
 
 exports.newVideoNotify = function () {
-  youtubeSearch.getVideoList(onRecieveVideoList);
+  const accessKey = configData["YoutubeAccessKey"];
+  const channelId = configData["YoutubeChannelID"];
+  youtubeSearch.getVideoList(accessKey, channelId, onRecieveVideoList);
 }
 
 function onRecieveVideoList(videoList) {
@@ -55,7 +57,7 @@ function loadNotificationStampOrNull() {
   const isExists = fs.existsSync(jsonFilePath);
   var stamps
   if (isExists) {
-    const json = fs.readFileSync('./storage/youtube-notifier-stamp.json');
+    const json = fs.readFileSync(jsonFilePath);
     stamps = JSON.parse(json);
   }
   return stamps;
