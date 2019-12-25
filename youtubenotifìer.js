@@ -1,28 +1,37 @@
 const fs = require('fs');
-const YoutubeSearch = require('./youtubeserach.js');
-const jsonFilePath = './storage/youtube-notifier-stamp.json';
+const youtubeSearch = require('./youtubeserach.js');
+const jandi = require('./jandi.js');
+const config = require('./config.js');
+const jsonFilePath = './storage/youtube-notificatoin-stamp.json';
+const configData = config.loadConfig();
 
 exports.newVideoNotify = function () {
-  YoutubeSearch.getVideoList(onRecieveVideoList);
+  youtubeSearch.getVideoList(onRecieveVideoList);
 }
 
 function onRecieveVideoList(videoList) {
-  const stamps = loadNotifyStampOrNull();
+  const stamps = loadNotificationStampOrNull();
   var newVideos = {};
   newVideos.table = [];
 
   if (stamps) {
     for (var i in videoList.table) {
-      var it = videoList.table[i];
-      if (!stamps.table.some(item => item.videoId == it.videoId)) {
-        newVideos.table.push(it);
+      var content = videoList.table[i];
+      if (!stamps.table.some(item => item.videoId == content.videoId)) {
+        newVideos.table.push(content);
       }
     }
   } else {
     newVideos.table = videoList.table;
   }
 
-  //TODO: 잔디에 메세지 보내기
+  for (var i in newVideos.table) {
+    var content = newVideos.table[i];
+    var formData = {
+      body: '[YouTube 구독 & 좋아요 & 댓글](https://www.youtube.com/watch?v=' + content.videoId +')',
+    }
+    jandi.sendMessage(configData["IW-Group"], formData);
+  }
 
   saveNotificationStamp(stamps, newVideos);
 }
@@ -39,10 +48,10 @@ function saveNotificationStamp(stampInfo, newVideos) {
   }
 
   const json = JSON.stringify(stampInfo, null, 2);
-  fs.writeFileSync(jsonFilePath, json);
+  fs.writeFileSync(jsonFilePath, json, 'utf8');
 }
 
-function loadNotifyStampOrNull() {
+function loadNotificationStampOrNull() {
   const isExists = fs.existsSync(jsonFilePath);
   var stamps
   if (isExists) {
