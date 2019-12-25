@@ -5,6 +5,7 @@ var config = require('./config.js');
 var scheduler = require('./scheduler.js');
 var lunchmenu = require('./lunchmenu.js');
 var bodyParser = require('body-parser');
+var youtubeNotifier = require('./youtubenotifìer.js');
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -15,17 +16,19 @@ app.use('/outgoing', outgoing);
 
 app.listen(3030, function () {
   console.log("Express server has started on port 3030");
-  var configData = config.loadConfig();
-  var notifyTime = configData["LunchNotifyTime"];
-  var notifyTime = notifyTime.split(":");
-  scheduler.addSchedule(notifyTime[0], notifyTime[1], menuOfTheDay);
+  //var configData = config.loadConfig();
+  //var notifyTime = configData["LunchNotifyTime"];
+  //var notifyTime = notifyTime.split(":");
+  //scheduler.addSchedule(notifyTime[0], notifyTime[1], menuOfTheDay);
+   // menuOfTheDay();
+   youtubeNotifier.newVideoNotify();
 })
 
 var menuOfTheDay = function () {
   var date = new Date();
   var dayLabel = date.getDay();
   var isWeekday = (1 <= dayLabel && dayLabel <= 5); //월요일 금요일
-
+  console.log("DayLabel : " + dayLabel + ", isWeekday : " + isWeekday);
   if (isWeekday) {
     var isEventDay = eventday.checkEventDay();
     if (isEventDay) {
@@ -46,6 +49,14 @@ var menuOfTheDay = function () {
       }
       jandi.sendMessage(configData["IW-Group"], formData);
     }
+  } else {
+    var isEventDay = eventday.checkEventDay();
+    console.log("isEventDay : " + isEventDay);
+    var configData = config.loadConfig();
+    var formData = {
+      body: "오늘은 주말이라 그룹채팅에 오늘의 메뉴를 안보냈어요"
+    }
+    jandi.sendMessage(configData["IW-Group"], formData);
   }
 }
 
