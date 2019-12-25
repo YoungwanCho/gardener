@@ -1,4 +1,3 @@
-var fs = require('fs');
 var Youtube = require('youtube-node');
 var youtube = new Youtube();
 
