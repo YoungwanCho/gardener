@@ -1,11 +1,13 @@
 var express = require('express');
+var bodyParser = require('body-parser');
+
 var jandi = require('./jandi.js');
 var eventday = require('./eventday.js');
 var config = require('./config.js');
 var scheduler = require('./scheduler.js');
 var lunchmenu = require('./lunchmenu.js');
-var bodyParser = require('body-parser');
 var youtubeNotifier = require('./youtubenotifìer.js');
+var configData = config.loadConfig();
 
 var app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -16,48 +18,45 @@ app.use('/outgoing', outgoing);
 
 app.listen(3030, function () {
   console.log("Express server has started on port 3030");
-  //var configData = config.loadConfig();
-  //var notifyTime = configData["LunchNotifyTime"];
-  //var notifyTime = notifyTime.split(":");
-  //scheduler.addSchedule(notifyTime[0], notifyTime[1], menuOfTheDay);
-   // menuOfTheDay();
-   youtubeNotifier.newVideoNotify();
+
+  var lunchNotifyTime = configData["LunchNotifyTime"];
+  var lunchNotifyTime = lunchNotifyTime.split(":");
+  scheduler.addSchedule(lunchNotifyTime[0], lunchNotifyTime[1], menuOfTheDay);
+
+  var youtubeNotifyTime = configData["YoutubeNotifyTime"];
+  var youtubeNotifyTime = youtubeNotifyTime.split(":");
+  scheduler.addSchedule(youtubeNotifyTime[0], youtubeNotifyTime[1], youtubeNotify);
 })
 
-var menuOfTheDay = function () {
-  var date = new Date();
-  var dayLabel = date.getDay();
-  var isWeekday = (1 <= dayLabel && dayLabel <= 5); //월요일 금요일
-  console.log("DayLabel : " + dayLabel + ", isWeekday : " + isWeekday);
-  if (isWeekday) {
-    var isEventDay = eventday.checkEventDay();
-    if (isEventDay) {
-      var configData = config.loadConfig();
-      var formData = {
-        body: "오늘은 공휴일이라 그룹채팅에 오늘의 메뉴를 안보냈어요"
-      }
-      jandi.sendMessage(configData["IW-Personal"], formData);
-    } else {
-      var configData = config.loadConfig();
-      var formData = {
-        body: date.toDateString(),
-        connectColor: '#FAC11B', //Hex code color of attachment bar
-        connectInfo: [{
-          title: '오늘의 메뉴', //1st attachment area title
-          description: lunchmenu.menuOfTheDay(configData["LunchMenu-Url"]) //1st attachment description
-        }]
-      }
-      jandi.sendMessage(configData["IW-Group"], formData);
-    }
-  } else {
-    var isEventDay = eventday.checkEventDay();
-    console.log("isEventDay : " + isEventDay);
-    var configData = config.loadConfig();
+const youtubeNotify = function () {
+  if (isItWeekdayToday() && !isItHolidayToday()) {
+    youtubeNotifier.newVideoNotify();
+  }
+}
+
+const menuOfTheDay = function () {
+  if (isItWeekdayToday() && !isItHolidayToday()) {
+    const description = lunchmenu.menuOfTheDay(configData["LunchMenu-Url"]);
     var formData = {
-      body: "오늘은 주말이라 그룹채팅에 오늘의 메뉴를 안보냈어요"
+      body: "점심메뉴",
+      connectColor: '#FAC11B',
+      connectInfo: [{
+        title: '오늘의 메뉴',
+        description: description
+      }]
     }
     jandi.sendMessage(configData["IW-Group"], formData);
   }
+}
+
+const isItWeekdayToday = function () {
+  var date = new Date();
+  var dayLabel = date.getDay();
+  return (1 <= dayLabel && dayLabel <= 5); //월요일 금요일
+}
+
+const isItHolidayToday = function () {
+  return eventday.checkEventDay();
 }
 
 exports.SendMenuOfTheDay = menuOfTheDay;

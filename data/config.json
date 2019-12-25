@@ -1,9 +1,12 @@
 {
-    "IW-Group": "",
-    "IW-Personal": "",
-    "EventDay-Host": "",
-    "EventDay-TDCProjecyKey": "",
-    "EventDay-Url": "",
-    "LunchMenu-Url": "",
-    "LunchNotifyTime": "10:30"
+  "IW-Group": "",
+  "IW-Personal": "",
+  "EventDay-host": "",
+  "EventDay-TDCProjecyKey": "",
+  "EventDay-Url": "",
+  "LunchMenu-Url": "",
+  "LunchNotifyTime": "",
+  "YoutubeNotifyTime": "",
+  "YoutubeAccessKey": "",
+  "YoutubeChannelID": ""
 }

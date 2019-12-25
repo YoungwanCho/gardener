@@ -1,5 +1,5 @@
-var Youtube = require('youtube-node');
-var youtube = new Youtube();
+var youtubenode = require('youtube-node');
+var youtube = new youtubenode();
 
 exports.getVideoList = function (accessKey, channelId, callback) {
   youtube.setKey(accessKey);
