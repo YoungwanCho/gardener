@@ -57,7 +57,7 @@ function loadNotificationStampOrNull() {
   const isExists = fs.existsSync(jsonFilePath);
   var stamps
   if (isExists) {
-    const json = fs.readFileSync(jsonFilePath);
+    const json = fs.readFileSync(jsonFilePath, 'utf8');
     stamps = JSON.parse(json);
   }
   return stamps;

@@ -26,7 +26,7 @@ var download = function (filePath) {
   var body = res.body;
   var jsonString = JSON.parse(body);
   var jsonData = JSON.stringify(jsonString);
-  fs.writeFileSync(filePath, jsonData);
+  fs.writeFileSync(filePath, jsonData,'utf8');
 }
 
 const checkHoliday = function () {
