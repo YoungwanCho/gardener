@@ -2,7 +2,7 @@ var express = require('express');
 var bodyParser = require('body-parser');
 
 var jandi = require('./jandi.js');
-var eventday = require('./eventday.js');
+var holiday = require('./holiday.js');
 var config = require('./config.js');
 var scheduler = require('./scheduler.js');
 var lunchmenu = require('./lunchmenu.js');
@@ -36,7 +36,7 @@ const youtubeNotify = function () {
 
 const menuOfTheDay = function () {
   if (isItWeekdayToday() && !isItHolidayToday()) {
-    const description = lunchmenu.menuOfTheDay(configData["LunchMenu-Url"]);
+    const description = lunchmenu.menuOfTheDay(configData["LunchMenu-URL"]);
     var formData = {
       body: "점심메뉴",
       connectColor: '#FAC11B',
@@ -56,7 +56,7 @@ const isItWeekdayToday = function () {
 }
 
 const isItHolidayToday = function () {
-  return eventday.checkEventDay();
+  return holiday.checkHoliday();
 }
 
 exports.SendMenuOfTheDay = menuOfTheDay;

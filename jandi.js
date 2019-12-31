@@ -1,8 +1,8 @@
 var request = require('request');
 
-exports.sendMessage = function (webhookUrl, formData) {
+exports.sendMessage = function (webhookURL, formData) {
   var options = {
-    url: webhookUrl,
+    url: webhookURL,
     headers: {
       "Content-type": "application/json",
       "Accept": "application/vnd.tosslab.jandi-v2+json"

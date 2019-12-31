@@ -1,10 +1,9 @@
 {
   "IW-Group": "",
   "IW-Personal": "",
-  "EventDay-host": "",
-  "EventDay-TDCProjecyKey": "",
-  "EventDay-Url": "",
-  "LunchMenu-Url": "",
+  "HoliDay-URL": "",
+  "HoliDay-ServiceKey": "",
+  "LunchMenu-URL": "",
   "LunchNotifyTime": "",
   "YoutubeNotifyTime": "",
   "YoutubeAccessKey": "",
