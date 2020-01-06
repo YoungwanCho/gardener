@@ -44,10 +44,10 @@ const checkHoliday = function () {
     holidays.forEach(element => {
       var locdate = element["locdate"];
       var date = parseStringToDate(locdate);
-      if (today.getMonth() == date.getMonth() && today.getDay() == date.getDay()) {
+      if (today.getMonth() == date.getMonth() && today.getDate() == date.getDate()) {
         isHoilday = true;
       }
-    }); 
+    });
     return isHoilday;
   } else {
     console.log(fileName + "file not exist");
