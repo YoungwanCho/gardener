@@ -23,9 +23,9 @@ app.listen(3030, function () {
   var lunchNotifyTime = lunchNotifyTime.split(":");
   scheduler.addSchedule(lunchNotifyTime[0], lunchNotifyTime[1], menuOfTheDay);
 
-  var youtubeNotifyTime = configData["YoutubeNotifyTime"];
-  var youtubeNotifyTime = youtubeNotifyTime.split(":");
-  scheduler.addSchedule(youtubeNotifyTime[0], youtubeNotifyTime[1], youtubeNotify);
+  // var youtubeNotifyTime = configData["YoutubeNotifyTime"];
+  // var youtubeNotifyTime = youtubeNotifyTime.split(":");
+  // scheduler.addSchedule(youtubeNotifyTime[0], youtubeNotifyTime[1], youtubeNotify);
 })
 
 const youtubeNotify = function () {
